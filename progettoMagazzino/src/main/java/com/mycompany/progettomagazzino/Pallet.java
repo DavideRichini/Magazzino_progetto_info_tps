@@ -12,13 +12,13 @@ import java.time.LocalDate;
  */
 public class Pallet {
     
-    static int nextId=1;
-    LocalDate delivery;
-    int id;
-    String content;
-    int quantity;
-    float value;
-    float weight;
+    static private int nextId=1;
+    private LocalDate delivery;
+    private int id;
+    private String content;
+    private int quantity;
+    private float value;
+    private float weight;
 
     public Pallet(LocalDate delivery, String content, int quantity, float value, float weight) {
         this.delivery = delivery;
