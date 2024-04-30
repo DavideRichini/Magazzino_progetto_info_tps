@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import exceptions.NoSpaceLeftException;
 import exceptions.EmptyListException;
+import exceptions.PalletNotFoundException;
 
 /**
  *
@@ -42,4 +43,23 @@ public class Magazzino {
         palletList.remove(i);
     }
     
+    public Pallet getPallet(int i) throws EmptyListException, IndexOutOfBoundsException{
+	if(palletList.size()==0) throw new EmptyListException();
+	
+	return palletList.get(i);
+    }
+    
+    public Pallet findPalletById(int id) throws PalletNotFoundException{
+	for(int i=0;i<palletList.size();++i){
+	    if(palletList.get(i).getId()==id){
+		return palletList.get(i);
+	    }
+	}
+	
+	throw new PalletNotFoundException();
+    }
+    
+    public void sortByDate(){
+	palletList.sort((o1,o2)->o1.getDelivery().compareTo(o2.getDelivery()));
+    }
 }
