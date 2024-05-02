@@ -79,7 +79,7 @@ public class Pallet {
 	String s="";
 	
 	s="id: "+id+"\ndata consegna: "+delivery.toString()+"\ncontenuto: "+content;
-	s+="\nquantita: "+quantity+"\nvalore: "+value+"\npeso: "+weight;
+	s+="\nquantita: "+quantity+"\nvalore: "+value+"€\npeso: "+weight;
 	
 	return s;
     }

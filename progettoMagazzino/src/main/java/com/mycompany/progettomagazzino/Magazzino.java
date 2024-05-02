@@ -37,10 +37,16 @@ public class Magazzino {
         availableSpace--;
     }
     
-    public void removePalletAtIndex(int i) throws EmptyListException, IndexOutOfBoundsException{
+    public void removePalletById(int id) throws EmptyListException, IndexOutOfBoundsException{
         if(palletList.size()==0) throw new EmptyListException();
         
-        palletList.remove(i);
+        for(int i=0;i<palletList.size();++i){
+	    if(palletList.get(i).getId()==id){
+		palletList.remove(i);
+		availableSpace++;
+		return;
+	    }
+	}
     }
     
     public Pallet getPallet(int i) throws EmptyListException, IndexOutOfBoundsException{
@@ -49,7 +55,7 @@ public class Magazzino {
 	return palletList.get(i);
     }
     
-    public Pallet findPalletById(int id) throws PalletNotFoundException{
+    public Pallet getPalletById(int id) throws PalletNotFoundException{
 	for(int i=0;i<palletList.size();++i){
 	    if(palletList.get(i).getId()==id){
 		return palletList.get(i);
