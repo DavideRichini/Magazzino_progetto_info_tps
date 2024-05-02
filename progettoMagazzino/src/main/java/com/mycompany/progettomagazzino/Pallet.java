@@ -74,4 +74,14 @@ public class Pallet {
         return weight;
     }
     
+    @Override
+    public String toString(){
+	String s="";
+	
+	s="id: "+id+"\ndata consegna: "+delivery.toString()+"\ncontenuto: "+content;
+	s+="\nquantita: "+quantity+"\nvalore: "+value+"\npeso: "+weight;
+	
+	return s;
+    }
+    
 }

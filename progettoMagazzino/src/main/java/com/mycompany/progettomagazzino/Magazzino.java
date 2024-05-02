@@ -62,4 +62,19 @@ public class Magazzino {
     public void sortByDate(){
 	palletList.sort((o1,o2)->o1.getDelivery().compareTo(o2.getDelivery()));
     }
+    
+    public int getNPalletPresenti(){
+	return palletList.size();
+    }
+    
+    @Override
+    public String toString(){
+	String s="";
+	
+	for(int i=0;i<palletList.size();++i){
+	    s+="\n"+palletList.get(i).toString();
+	}
+	
+	return s;
+    }
 }
