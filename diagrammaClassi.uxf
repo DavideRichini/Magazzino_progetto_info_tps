@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>330</y>
+      <w>310</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>Magazzino
+--
+-availableSpace: int
+--
++Magazzino(availableSpace: int)
++getAvailableSpace():int
++setAvailableSpace(availableSpace: int)
++setPalletToEnd(p: Pallet)
++removePalletById(id: int)
++getPallet(i: int):Pallet
++getPalletById(id: int): Pallet
++sortByDate()
++getNPalletPresenti():int
++toString():String
++saveToCSV(filename: String)
++readFromCSV(filename: String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>340</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+r1= availableSpace
+r2= 1</panel_attributes>
+    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>320</y>
+      <w>280</w>
+      <h>470</h>
+    </coordinates>
+    <panel_attributes>Pallet
+--
+/-nextId;/
+-delivery: LocalDate;
+-id:int;
+-content:String;
+-quantity:int;
+-value:float;
+-weight:float;
+--
++Pallet(delivery:LocalDate,content: String, 
+quantity:int,value: float, 
+weight:float)
++Pallet(id:int,delivery:LocalDate,
+content: String,quantity:int,value: float, 
+weight:float)
++setDelivery(delivery:LocalDate)
++setContent(content:String)
++setQuantity(quantity:int)
++setValue(value:int)
++setWeight(weight:float)
++getDelivery():LocalDate
++getId():int
++getContent():String
++getQuantity()int
++getValue():float
++getWeight():float
++toString(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
