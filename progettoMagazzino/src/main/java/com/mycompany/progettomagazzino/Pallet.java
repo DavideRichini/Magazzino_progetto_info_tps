@@ -4,13 +4,14 @@
  */
 package com.mycompany.progettomagazzino;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author 39350
  */
-public class Pallet {
+public class Pallet implements Serializable {
     
     static private int nextId=1;
     private LocalDate delivery;
@@ -28,6 +29,15 @@ public class Pallet {
         this.weight = weight;
         id=nextId;
         nextId++;
+    }
+    
+    public Pallet(int id,LocalDate delivery, String content, int quantity, float value, float weight) {
+        this.delivery = delivery;
+        this.content = content;
+        this.quantity = quantity;
+        this.value = value;
+        this.weight = weight;
+        id=id;
     }
 
     public LocalDate getDelivery() {

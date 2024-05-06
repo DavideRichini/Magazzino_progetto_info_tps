@@ -5,16 +5,23 @@
 package com.mycompany.progettomagazzino;
 
 import java.util.ArrayList;
+import java.io.Serializable;
+import util.TextFile;
 
 import exceptions.NoSpaceLeftException;
 import exceptions.EmptyListException;
 import exceptions.PalletNotFoundException;
+import java.io.IOException;
+import exceptions.FileException;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import javax.lang.model.element.Element;
 
 /**
  *
  * @author 39350
  */
-public class Magazzino {
+public class Magazzino implements Serializable{
     ArrayList<Pallet> palletList=new ArrayList<Pallet>();
     private int availableSpace;
 
@@ -82,5 +89,27 @@ public class Magazzino {
 	}
 	
 	return s;
+    }
+    
+    public void saveToCSV(String filename) throws FileNotFoundException, IOException, FileException{
+	TextFile file=new TextFile(filename, 'W');
+	
+	for(int i=0;i<palletList.size();++i){
+	    Pallet p1=palletList.get(i);
+	    file.toFile(p1.getId()+";"+p1.getDelivery().toString()+";"+p1.getContent()+";"+p1.getQuantity()+";"+p1.getValue()+";"+p1.getWeight());
+	}
+	
+	file.close();
+	
+    }
+    
+    public void readFromCSV(String filename) throws IOException, FileException{
+	TextFile file=new TextFile(filename, 'R');
+	
+	while(true){
+	    String temp=file.fromFile();
+	    String data[]=temp.split(";");
+	    palletList.add(new Pallet(Integer.parseInt(data[0]),LocalDate.parse(data[1]),data[2],Integer.parseInt(data[3]),Float.parseFloat(data[4]),Float.parseFloat(data[5])));
+	}
     }
 }

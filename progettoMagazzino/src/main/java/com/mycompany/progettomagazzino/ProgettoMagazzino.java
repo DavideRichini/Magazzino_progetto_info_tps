@@ -5,11 +5,13 @@
 package com.mycompany.progettomagazzino;
 
 import exceptions.EmptyListException;
+import exceptions.FileException;
 import exceptions.NoSpaceLeftException;
 import exceptions.PalletNotFoundException;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.*;
@@ -23,11 +25,12 @@ public class ProgettoMagazzino {
     public static void main(String[] args) {
 	
 	int spazio=20;
+	int chosenId=0;
 	
 	Magazzino w1=new Magazzino(spazio);
 	ConsoleInput input=new ConsoleInput();
 	
-	int nOptions=8;
+	int nOptions=10;
 	String options[]=new String[nOptions];
 	int chosen=1;
 	
@@ -39,6 +42,8 @@ public class ProgettoMagazzino {
 	options[5]="5: Ordina per data di consegna";
 	options[6]="6: Mostra numero pallet presenti";
 	options[7]="7: Mostra spazio disponibile";
+	options[8]="8: Salva su CSV";
+	options[9]="9: Leggi da CSV";
 	
 	
         Menu m1=new Menu(options);
@@ -53,7 +58,6 @@ public class ProgettoMagazzino {
 		    System.out.println(w1.toString());
 		    break;
 		case 2:
-		    int chosenId;
 		    try {
 			chosenId=input.readInt();
 			Pallet p1= w1.getPalletById(chosenId);
@@ -94,7 +98,7 @@ public class ProgettoMagazzino {
 		
 		case 4:
 		    try {
-			int chosenId=input.readInt();
+			chosenId=input.readInt();
 			w1.removePalletById(chosenId);
 		    } catch (IOException ex) {
 			System.out.println("Impossibile leggere da tastiera");
@@ -117,6 +121,25 @@ public class ProgettoMagazzino {
 		case 7:
 		    System.out.println(w1.getAvailableSpace());
 		    break;
+		case 8:
+		    try {
+			w1.saveToCSV("data.csv");
+		    } catch (IOException ex) {
+			System.out.println("impossibile accedere al file");
+		    } catch (FileException ex) {
+			System.out.println(ex.getCause());
+		    }
+		    break;
+		case 9:
+		    try {
+			w1.readFromCSV("data.csv");
+		    } catch (IOException ex) {
+			System.out.println("impossibile leggere da file");
+		    } catch (FileException ex) {
+			System.out.println(ex.getCause());
+		    }
+		    break;
+
 		default:
 		    chosen=0;
 
