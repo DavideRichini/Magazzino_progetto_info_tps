@@ -8,12 +8,15 @@ import exceptions.EmptyListException;
 import exceptions.FileException;
 import exceptions.NoSpaceLeftException;
 import exceptions.PalletNotFoundException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.format.DateTimeParseException;
 
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import util.*;
 
 /**
@@ -30,7 +33,7 @@ public class ProgettoMagazzino {
 	Magazzino w1=new Magazzino(spazio);
 	ConsoleInput input=new ConsoleInput();
 	
-	int nOptions=10;
+	int nOptions=12;
 	String options[]=new String[nOptions];
 	int chosen=1;
 	
@@ -44,6 +47,8 @@ public class ProgettoMagazzino {
 	options[7]="7: Mostra spazio disponibile";
 	options[8]="8: Salva su CSV";
 	options[9]="9: Leggi da CSV";
+	options[10]="10: Salva su file binario";
+	options[11]="11: Leggi da file binario";
 	
 	
         Menu m1=new Menu(options);
@@ -139,7 +144,35 @@ public class ProgettoMagazzino {
 			System.out.println(ex.getCause());
 		    }
 		    break;
-
+		case 10:
+		
+		    try {
+			FileOutputStream file=new FileOutputStream("magazzino.data");
+			ObjectOutputStream writer=new ObjectOutputStream(file);
+			writer.writeObject(w1);
+		    } catch (FileNotFoundException ex) {
+			System.out.println("il file non esiste");
+		    } catch (IOException ex) {
+			System.out.println("impossibile scrivere sul file");
+		
+		    }
+		    break;
+		case 11:
+		    try {
+			FileInputStream file=new FileInputStream("magazzino.data");
+			ObjectInputStream reader=new ObjectInputStream(file);
+			w1=(Magazzino)reader.readObject();
+		    } catch (FileNotFoundException ex) {
+			System.out.println("il file non esiste");
+		    } catch (IOException ex) {
+			System.out.println("impossibile leggere dal file");
+		    } catch (ClassNotFoundException ex) {
+			
+		    }catch(ClassCastException ex){
+			System.out.println("File non valido");
+		    }
+		    break;
+		    
 		default:
 		    chosen=0;
 
