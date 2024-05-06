@@ -25,6 +25,10 @@ import util.*;
  */
 public class ProgettoMagazzino {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 	
 	int spazio=20;
