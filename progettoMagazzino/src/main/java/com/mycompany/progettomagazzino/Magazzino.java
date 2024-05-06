@@ -128,6 +128,10 @@ public class Magazzino implements Serializable{
 	return palletList.size();
     }
     
+    /**
+     * 
+     * @return stringa concatenando i toString dei pallet
+     */
     @Override
     public String toString(){
 	String s="";

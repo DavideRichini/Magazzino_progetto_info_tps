@@ -21,6 +21,14 @@ public class Pallet implements Serializable {
     private float value;
     private float weight;
 
+    /**
+     * 
+     * @param delivery data consegna
+     * @param content contenuto pallet
+     * @param quantity quantità elementi sul pallet
+     * @param value valore del contenuto in euro
+     * @param weight peso del pallet in chili
+     */
     public Pallet(LocalDate delivery, String content, int quantity, float value, float weight) {
         this.delivery = delivery;
         this.content = content;
@@ -31,59 +39,120 @@ public class Pallet implements Serializable {
         nextId++;
     }
     
+    /**
+     * 
+     * @param delivery data consegna
+     * @param content contenuto pallet
+     * @param quantity quantità elementi sul pallet
+     * @param value valore del contenuto in euro
+     * @param weight peso del pallet in chili
+     * @param id id da assegnare al pallet
+     */
     public Pallet(int id,LocalDate delivery, String content, int quantity, float value, float weight) {
         this.delivery = delivery;
         this.content = content;
         this.quantity = quantity;
         this.value = value;
         this.weight = weight;
-        id=id;
+        this.id=id;
+        if(nextId<=id) nextId=id+1;
     }
 
+    /**
+     * 
+     * @return data condegna in LocalDate
+     */
     public LocalDate getDelivery() {
         return delivery;
     }
 
+    /**
+     * 
+     * @param delivery data condegna in formato ISO
+     */
     public void setDelivery(LocalDate delivery) {
         this.delivery = delivery;
     }
 
+    /**
+     * 
+     * @param content contenuto da assegnare
+     */
     public void setContent(String content) {
         this.content = content;
     }
 
+    /**
+     * 
+     * @param quantity quantità da assegnare, se negativa diventa 0
+     */
     public void setQuantity(int quantity) {
+        if(quantity<0) quantity=0;
         this.quantity = quantity;
     }
 
+    /**
+     * 
+     * @param value valore da asegnare, se negativo diventa 0
+     */
     public void setValue(float value) {
+        if(value<0) value=0;
         this.value = value;
     }
 
+    /**
+     * 
+     * @param weight peso
+     */
     public void setWeight(float weight) {
+        if(weight<0) weight=0;
         this.weight = weight;
     }
 
+    /**
+     * 
+     * @return id del pallet
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * 
+     * @return contenuto del pallet come stringa
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * 
+     * @return quantita elementi sul pallet
+     */
     public int getQuantity() {
         return quantity;
     }
 
+    /**
+     * 
+     * @return valore pallet
+     */
     public float getValue() {
         return value;
     }
 
+    /**
+     * 
+     * @return peso pallet
+     */
     public float getWeight() {
         return weight;
     }
     
+    /**
+     * 
+     * @return stringa contenente dati pallet
+     */
     @Override
     public String toString(){
 	String s="";
