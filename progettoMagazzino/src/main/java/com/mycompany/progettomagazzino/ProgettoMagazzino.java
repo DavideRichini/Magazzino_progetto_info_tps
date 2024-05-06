@@ -17,6 +17,8 @@ import java.io.ObjectOutputStream;
 import java.time.format.DateTimeParseException;
 
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import util.*;
 
 /**
@@ -33,28 +35,54 @@ public class ProgettoMagazzino {
 	
 	int spazio=20;
 	int chosenId=0;
-	
+        String options[];
+	int chosen=1;
+        String attore="";
+        
 	Magazzino w1=new Magazzino(spazio);
 	ConsoleInput input=new ConsoleInput();
 	
-	int nOptions=12;
-	String options[]=new String[nOptions];
-	int chosen=1;
 	
-	options[0]="0: Esci";
-	options[1]="1: Mostra tutti";
-	options[2]="2: Mostra pallet con id";
-	options[3]="3: Aggiungi pallet";
-	options[4]="4: Rimuovi pallet per id";
-	options[5]="5: Ordina per data di consegna";
-	options[6]="6: Mostra numero pallet presenti";
-	options[7]="7: Mostra spazio disponibile";
-	options[8]="8: Salva su CSV";
-	options[9]="9: Leggi da CSV";
-	options[10]="10: Salva su file binario";
-	options[11]="11: Leggi da file binario";
+        try {
+            System.out.println("Inserire tipo di utente (admin o user)");
+            attore=input.readString();
+        } catch (IOException ex) {
+            
+        } catch (NumberFormatException ex) {
+            
+        }
 	
-	
+        if(attore.equals("admin")){
+            int nOptions=12;
+            options=new String[nOptions];
+            options[0]="0: Esci";
+            options[1]="1: Mostra tutti";
+            options[2]="2: Mostra pallet con id";
+            options[3]="3: Ordina per data di consegna";
+            options[4]="4: Mostra numero pallet presenti";
+            options[5]="5: Mostra spazio disponibile";
+            options[6]="6: Salva su CSV";
+            options[7]="7: Leggi da CSV";
+            options[8]="8: Salva su file binario";
+            options[9]="9: Leggi da file binario";
+            options[10]="10: Rimuovi pallet per id";
+            options[11]="11: Aggiungi pallet";
+        } else{
+            int nOptions=10;
+            options=new String[nOptions];
+            options[0]="0: Esci";
+            options[1]="1: Mostra tutti";
+            options[2]="2: Mostra pallet con id";
+            options[3]="3: Ordina per data di consegna";
+            options[4]="4: Mostra numero pallet presenti";
+            options[5]="5: Mostra spazio disponibile";
+            options[6]="6: Salva su CSV";
+            options[7]="7: Leggi da CSV";
+            options[8]="8: Salva su file binario";
+            options[9]="9: Leggi da file binario";
+        }
+        
+        
         Menu m1=new Menu(options);
 	
 	while(chosen>0){
@@ -69,19 +97,90 @@ public class ProgettoMagazzino {
 		case 2:
 		    try {
 			chosenId=input.readInt();
-			Pallet p1= w1.getPalletById(chosenId);
-			System.out.println(p1.toString());
+			w1.removePalletById(chosenId);
 		    } catch (IOException ex) {
 			System.out.println("Impossibile leggere da tastiera");
 		    } catch (NumberFormatException ex) {
 			System.out.println("Formato non valido");
-		    } catch (PalletNotFoundException ex) {
-			System.out.println("Non esiste un pallet con id "+chosenId);
+		    } catch (EmptyListException ex) {
+			System.out.println("Il magazzino e vuoto");
+		    } catch (IndexOutOfBoundsException ex) {
+			
 		    }
 		    break;
 		case 3:
+		    w1.sortByDate();
+		    System.out.println(w1.toString());
+		    break;
+		
+		case 4:
+		    System.out.println(w1.getNPalletPresenti());
+		    break;
 		    
-		try {
+		case 5:
+		    System.out.println(w1.getAvailableSpace());
+		    break;
+		case 6:
+                    try {
+			w1.saveToCSV("data.csv");
+		    } catch (IOException ex) {
+			System.out.println("impossibile accedere al file");
+		    } catch (FileException ex) {
+			System.out.println(ex.getCause());
+		    }
+		    break;
+		case 7:
+                    try {
+			w1.readFromCSV("data.csv");
+		    } catch (IOException ex) {
+			System.out.println("impossibile leggere da file");
+		    } catch (FileException ex) {
+			System.out.println(ex.getCause());
+		    }
+		    break;
+		case 8:
+                    try {
+			FileInputStream file=new FileInputStream("magazzino.data");
+			ObjectInputStream reader=new ObjectInputStream(file);
+			w1=(Magazzino)reader.readObject();
+		    } catch (FileNotFoundException ex) {
+			System.out.println("il file non esiste");
+		    } catch (IOException ex) {
+			System.out.println("impossibile leggere dal file");
+		    } catch (ClassNotFoundException ex) {
+			
+		    }catch(ClassCastException ex){
+			System.out.println("File non valido");
+		    }
+		    break;
+		case 9:
+                    try {
+			FileOutputStream file=new FileOutputStream("magazzino.data");
+			ObjectOutputStream writer=new ObjectOutputStream(file);
+			writer.writeObject(w1);
+		    } catch (FileNotFoundException ex) {
+			System.out.println("il file non esiste");
+		    } catch (IOException ex) {
+			System.out.println("impossibile scrivere sul file");
+		
+		    }
+		    break;
+		case 10:
+                    try {
+			chosenId=input.readInt();
+			w1.removePalletById(chosenId);
+		    } catch (IOException ex) {
+			System.out.println("Impossibile leggere da tastiera");
+		    } catch (NumberFormatException ex) {
+			System.out.println("Formato non valido");
+		    } catch (EmptyListException ex) {
+			System.out.println("Il magazzino e vuoto");
+		    } catch (IndexOutOfBoundsException ex) {
+			
+		    }
+		    break;
+		case 11:
+                    try {
 		    System.out.println("Inserire data consegna nel formato AAAA-MM-DD");
 		    String date=input.readString();
 		    LocalDate d1=LocalDate.parse(date);
@@ -102,78 +201,6 @@ public class ProgettoMagazzino {
 			System.out.println("Formato data non valido");
 		    } catch (NoSpaceLeftException ex) {
 			System.out.println("Il magazzino e pieno");
-		    }
-		    break;
-		
-		case 4:
-		    try {
-			chosenId=input.readInt();
-			w1.removePalletById(chosenId);
-		    } catch (IOException ex) {
-			System.out.println("Impossibile leggere da tastiera");
-		    } catch (NumberFormatException ex) {
-			System.out.println("Formato non valido");
-		    } catch (EmptyListException ex) {
-			System.out.println("Il magazzino e vuoto");
-		    } catch (IndexOutOfBoundsException ex) {
-			
-		    }
-		    break;
-		    
-		case 5:
-		    w1.sortByDate();
-		    System.out.println(w1.toString());
-		    break;
-		case 6:
-		    System.out.println(w1.getNPalletPresenti());
-		    break;
-		case 7:
-		    System.out.println(w1.getAvailableSpace());
-		    break;
-		case 8:
-		    try {
-			w1.saveToCSV("data.csv");
-		    } catch (IOException ex) {
-			System.out.println("impossibile accedere al file");
-		    } catch (FileException ex) {
-			System.out.println(ex.getCause());
-		    }
-		    break;
-		case 9:
-		    try {
-			w1.readFromCSV("data.csv");
-		    } catch (IOException ex) {
-			System.out.println("impossibile leggere da file");
-		    } catch (FileException ex) {
-			System.out.println(ex.getCause());
-		    }
-		    break;
-		case 10:
-		
-		    try {
-			FileOutputStream file=new FileOutputStream("magazzino.data");
-			ObjectOutputStream writer=new ObjectOutputStream(file);
-			writer.writeObject(w1);
-		    } catch (FileNotFoundException ex) {
-			System.out.println("il file non esiste");
-		    } catch (IOException ex) {
-			System.out.println("impossibile scrivere sul file");
-		
-		    }
-		    break;
-		case 11:
-		    try {
-			FileInputStream file=new FileInputStream("magazzino.data");
-			ObjectInputStream reader=new ObjectInputStream(file);
-			w1=(Magazzino)reader.readObject();
-		    } catch (FileNotFoundException ex) {
-			System.out.println("il file non esiste");
-		    } catch (IOException ex) {
-			System.out.println("impossibile leggere dal file");
-		    } catch (ClassNotFoundException ex) {
-			
-		    }catch(ClassCastException ex){
-			System.out.println("File non valido");
 		    }
 		    break;
 		    
