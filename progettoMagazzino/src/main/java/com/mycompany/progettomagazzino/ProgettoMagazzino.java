@@ -217,7 +217,7 @@ public class ProgettoMagazzino {
 			System.out.println("Formato data non valido");
 		    }
 		}
-
+		break;
 		    
 		case 11:
                     try {
