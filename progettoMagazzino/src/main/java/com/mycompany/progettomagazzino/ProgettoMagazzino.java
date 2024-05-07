@@ -17,8 +17,6 @@ import java.io.ObjectOutputStream;
 import java.time.format.DateTimeParseException;
 
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import util.*;
 
 /**
@@ -70,8 +68,8 @@ public class ProgettoMagazzino {
             options[5]="5: Mostra spazio disponibile";
             options[6]="6: Salva su CSV";
             options[7]="7: Leggi da CSV";
-            options[8]="8: Salva su file binario";
-            options[9]="9: Leggi da file binario";
+            options[8]="8: Leggi da file binario";
+            options[9]="9: Salva su file binario";
 	    options[10]="10: modifica pallet per id";
             options[11]="11: Rimuovi pallet per id";
             options[12]="12: Aggiungi pallet";
@@ -86,8 +84,8 @@ public class ProgettoMagazzino {
             options[5]="5: Mostra spazio disponibile";
             options[6]="6: Salva su CSV";
             options[7]="7: Leggi da CSV";
-            options[8]="8: Salva su file binario";
-            options[9]="9: Leggi da file binario";
+            options[8]="8: Leggi da file binario";
+            options[9]="9: Salva file binario";
         }
         
         
