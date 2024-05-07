@@ -50,6 +50,7 @@ public class Magazzino implements Serializable{
      * @param availableSpace nuovo numero di pallet
      */
     public void setAvailableSpace(int availableSpace) {
+        if(availableSpace<0)availableSpace=0;
         this.availableSpace = availableSpace;
     }
     
