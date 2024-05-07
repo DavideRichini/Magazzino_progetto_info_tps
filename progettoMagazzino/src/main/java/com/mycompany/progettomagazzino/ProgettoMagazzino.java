@@ -38,6 +38,13 @@ public class ProgettoMagazzino {
         String options[];
 	int chosen=1;
         String attore="";
+	String opzioniPallet[]=new String[5];
+	
+	opzioniPallet[0]="0: data consegna";
+	opzioniPallet[1]="1: contenuto";
+	opzioniPallet[2]="2: quantità";
+	opzioniPallet[3]="3: valore";
+	opzioniPallet[4]="4: peso";
         
 	Magazzino w1=new Magazzino(spazio);
 	ConsoleInput input=new ConsoleInput();
@@ -53,7 +60,7 @@ public class ProgettoMagazzino {
         }
 	
         if(attore.equals("admin")){
-            int nOptions=12;
+            int nOptions=13;
             options=new String[nOptions];
             options[0]="0: Esci";
             options[1]="1: Mostra tutti";
@@ -65,8 +72,9 @@ public class ProgettoMagazzino {
             options[7]="7: Leggi da CSV";
             options[8]="8: Salva su file binario";
             options[9]="9: Leggi da file binario";
-            options[10]="10: Rimuovi pallet per id";
-            options[11]="11: Aggiungi pallet";
+	    options[10]="10: modifica pallet per id";
+            options[11]="11: Rimuovi pallet per id";
+            options[12]="12: Aggiungi pallet";
         } else{
             int nOptions=10;
             options=new String[nOptions];
@@ -166,6 +174,54 @@ public class ProgettoMagazzino {
 		    }
 		    break;
 		case 10:
+		{
+		    try {
+			chosenId=input.readInt();
+			Pallet tmp=w1.getPalletById(chosenId);
+			Menu m2=new Menu(opzioniPallet);
+			int scelta=m2.sceltaMenu();
+			switch(scelta){
+			    case 0:
+				System.out.println("Inserire data consegna nel formato AAAA-MM-DD");
+				String date=input.readString();
+				LocalDate d1=LocalDate.parse(date);
+				tmp.setDelivery(d1);
+				break;
+			    case 1:
+				System.out.println("Inserire contenuto");
+				String contenuto=input.readString();
+				tmp.setContent(contenuto);
+				break;
+			    case 2:
+				System.out.println("Inserire quantità");
+				int quantita=input.readInt();
+				tmp.setQuantity(quantita);
+				break;
+			    case 3:
+				System.out.println("Inserire valore");
+				float valore=input.readFloat();
+				tmp.setValue(valore);
+				break;
+			    case 4:
+				System.out.println("Inserire peso");
+				float peso=input.readFloat();
+				tmp.setWeight(peso);
+				break;
+				
+			}
+		    } catch (IOException ex) {
+			System.out.println("IMpossibile leggere da tastiera");
+		    } catch (NumberFormatException ex) {
+			System.out.println("Non è stato inserito un numero");
+		    } catch (PalletNotFoundException ex) {
+			System.out.println("Non esiste un pallet con l'id specificato");
+		    }catch (DateTimeParseException ex){
+			System.out.println("Formato data non valido");
+		    }
+		}
+
+		    
+		case 11:
                     try {
 			chosenId=input.readInt();
 			w1.removePalletById(chosenId);
@@ -179,7 +235,7 @@ public class ProgettoMagazzino {
 			
 		    }
 		    break;
-		case 11:
+		case 12:
                     try {
 		    System.out.println("Inserire data consegna nel formato AAAA-MM-DD");
 		    String date=input.readString();
