@@ -178,4 +178,10 @@ public class Magazzino implements Serializable{
 	    palletList.add(new Pallet(Integer.parseInt(data[0]),LocalDate.parse(data[1]),data[2],Integer.parseInt(data[3]),Float.parseFloat(data[4]),Float.parseFloat(data[5])));
 	}
     }
+    
+    public boolean equals(Object obj){
+        Magazzino m1=(Magazzino) obj;
+        
+        return m1.getAvailableSpace()==availableSpace&&m1.getNPalletPresenti()==getNPalletPresenti()&&m1.toString().equals(obj);
+    }
 }

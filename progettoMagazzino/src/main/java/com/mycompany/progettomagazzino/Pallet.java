@@ -163,4 +163,10 @@ public class Pallet implements Serializable {
 	return s;
     }
     
+    public boolean equals(Object obj){
+        Pallet p1=(Pallet) obj;
+        
+        return p1.getContent().equals(this.getContent())&&p1.getDelivery().equals(this.getDelivery())&&p1.getId()==id&&p1.getQuantity()==quantity&&p1.getValue()==value&&p1.getWeight()==weight;
+    }
+    
 }
